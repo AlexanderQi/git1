@@ -1,0 +1,21 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:datashow"
+      xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="datashow.PageEquip"
+      mc:Ignorable="d" 
+      d:DesignHeight="565" d:DesignWidth="1254"
+      Title="PageEquip" Opacity="0.8" >
+
+    <Grid>
+
+        <dxg:GridControl x:Name="dg" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Margin="0" Height="545" Width="1234" SelectionMode="None" ShowBorder="False">
+            <dxg:GridControl.View>
+                <dxg:CardView AllowEditing="False" ShowFilterPanelMode="Never" ShowGroupPanel="False" ScrollMode="Item" AllowColumnFiltering="False" AllowFilterEditor="False" AutoScrollOnSorting="False"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+    </Grid>
+</Page>

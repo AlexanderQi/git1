@@ -1,0 +1,20 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:datashow"
+      xmlns:mywpflib1="clr-namespace:mywpflib1;assembly=mywpflib1" xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="datashow.Page_JL"
+      mc:Ignorable="d" 
+      d:DesignHeight="565" d:DesignWidth="1254"
+      Title="Page_JL" Opacity="1" Height="Auto" Width="Auto" Loaded="Page_Loaded">
+   
+        <Grid Margin="0" x:Name="g1">
+        <Viewbox x:Name="vb"  Stretch="Fill" Width="1250" Height="560">            
+            <mywpflib1:JLpanel x:Name="mainpad" Margin="0" SnapsToDevicePixels="True" Width="1250" Height="560" p1="silver-system-34.png" p2="silver-system-16.png" p3="silver-system-23.png" p4="silver-system-59.png" p5="silver-system-19.png" p6="silver-system-24.png"/>
+        </Viewbox>
+
+    </Grid>
+  
+</Page>
+    
