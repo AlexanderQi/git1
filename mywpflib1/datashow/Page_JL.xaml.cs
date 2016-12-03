@@ -50,7 +50,8 @@ namespace datashow
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //mainpad.caption0 = g1.ActualWidth.ToString();
-            // vb.Width = g1.ActualWidth * 0.5;  缩放方法
+            vb.Width = g1.ActualWidth; //  缩放方法
+            vb.Height = g1.ActualHeight;
             //LoadData();   //同步调用
              Action_Data();  //异步调用
           

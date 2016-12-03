@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:datashow"
         xmlns:dxnav="http://schemas.devexpress.com/winfx/2008/xaml/navigation" xmlns:Custom="http://schemas.devexpress.com/winfx/2008/xaml/printingcore/xtraprinting/native/presentation" x:Class="datashow.MainWindow"
         mc:Ignorable="d"
-        Title="数据展示平台" Height="720" Width="1280" WindowStartupLocation="CenterScreen" WindowState="Maximized" AllowsTransparency="True" WindowStyle="None">
+        Title="数据展示平台" Height="753.991" Width="1374.249" WindowStartupLocation="CenterScreen" WindowState="Maximized" AllowsTransparency="True" WindowStyle="None">
 
     <Window.Resources>
         <local:MyPngConverter x:Key="mpc" />
@@ -50,8 +50,7 @@
             </TextBlock.Effect>
         </TextBlock>
 
-        <Frame x:Name="frame" Content="Frame" Height="565" Margin="6,0,6,6" Grid.Row="1" Width="1254" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" >
-        </Frame>
+        <Frame x:Name="frame" Content="Frame" Margin="6,0,6,6" Grid.Row="1" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" />
 
         <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="26,111,0,0" TextWrapping="Wrap" Text="配变数量：79     监控点数量：10" VerticalAlignment="Top" Foreground="#FF0BFF4C" FontSize="16" Height="30" Width="283" Grid.RowSpan="2">
             <TextBlock.Effect>
