@@ -25,6 +25,7 @@ namespace datashow
         public static MainWindow instance;
         public Page_JL PJL = new Page_JL();
         public PageEquip PEQ = new PageEquip();
+        public PageHGL HGL = new PageHGL();
         public Page curPage;
         private static DispatcherTimer readDataTimer = new DispatcherTimer();
         public MainWindow()
@@ -76,7 +77,7 @@ namespace datashow
         private void TileBarItem_Click_3(object sender, EventArgs e)
         {
             
-            setCurPage(PEQ);
+            setCurPage(HGL);
 
         }
     }

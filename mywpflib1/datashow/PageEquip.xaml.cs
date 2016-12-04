@@ -47,16 +47,20 @@ namespace datashow
 
         private void RefreshData()
         {
-            //throw new NotImplementedException();
+            //throw new NotImplementedException();  //dev grid控件无法异步载入数据源
+           
             dg.ItemsSource = mydt;
+           
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //Action_Data();  //异步调用
-
+            dg.ShowLoadingPanel = true;
             LoadData();
             RefreshData();
+            dg.ShowLoadingPanel = false;
+
         }
 
         public void Action_Data()

@@ -1,0 +1,39 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:datashow"
+      xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="datashow.PageHGL"
+      mc:Ignorable="d" 
+      d:DesignHeight="565" d:DesignWidth="1254"
+      Title="PageHGL">
+
+    <Grid>
+
+        <dxc:ChartControl HorizontalAlignment="Left" Margin="3" VerticalAlignment="Top"  Background="#3FFFFFFF" BorderBrush="{x:Null}">
+
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D/>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:SplineSeries2D x:Name="s1"/>
+
+
+
+
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+
+    </Grid>
+</Page>

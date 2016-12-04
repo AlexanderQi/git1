@@ -22,8 +22,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="107*"/>
-            <RowDefinition Height="585*"/>
+            <RowDefinition Height="67*"/>
+            <RowDefinition Height="310*"/>
         </Grid.RowDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="bluebk1.jpg"/>
@@ -35,7 +35,7 @@
         </TextBlock>
 
 
-        <dxnav:TileBar x:Name="tileBar" Margin="0,0,10,0" HorizontalAlignment="Right" Width="712" Opacity="0.7" Height="125" VerticalAlignment="Top" Grid.RowSpan="2">
+        <dxnav:TileBar x:Name="tileBar" Margin="0,0,10,0" HorizontalAlignment="Right" Width="712" Opacity="0.7" Height="125" VerticalAlignment="Top">
             <dxnav:TileBar.Effect>
                 <DropShadowEffect ShadowDepth="3"/>
             </dxnav:TileBar.Effect>
@@ -44,15 +44,15 @@
             <dxnav:TileBarItem Uid="设备信息" ContentTemplate="{StaticResource myitem}" Background="#FF172231" Click="TileBarItem_Click_3"/>
             <dxnav:TileBarItem Uid="退出" ContentTemplate="{StaticResource myitem}" Click="TileBarItem_Click" Background="#FF172231"/>
         </dxnav:TileBar>
-        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="24,71,0,0" TextWrapping="Wrap" Text="110kV新桥变10kV绣园线" VerticalAlignment="Top" Foreground="#FFE0E0E0" FontSize="21.333" Height="30" Width="270">
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="24,67,0,0" TextWrapping="Wrap" Text="110kV新桥变10kV绣园线" VerticalAlignment="Top" Foreground="#FFE0E0E0" FontSize="21.333" Height="30" Width="270">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="3"/>
             </TextBlock.Effect>
         </TextBlock>
 
-        <Frame x:Name="frame" Content="Frame" Margin="6,0,6,6" Grid.Row="1" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" />
+        <Frame x:Name="frame" Content="Frame" Margin="0" Grid.Row="1" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" />
 
-        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="26,111,0,0" TextWrapping="Wrap" Text="配变数量：79     监控点数量：10" VerticalAlignment="Top" Foreground="#FF0BFF4C" FontSize="16" Height="30" Width="283" Grid.RowSpan="2">
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="24,104,0,0" TextWrapping="Wrap" Text="配变数量：79     监控点数量：10" Foreground="#FF0BFF4C" FontSize="16" Width="283" Height="30" VerticalAlignment="Top">
             <TextBlock.Effect>
                 <DropShadowEffect ShadowDepth="3"/>
             </TextBlock.Effect>

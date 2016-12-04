@@ -7,13 +7,14 @@
       xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="datashow.PageEquip"
       mc:Ignorable="d" 
       d:DesignHeight="565" d:DesignWidth="1254"
-      Title="PageEquip" Opacity="0.8" >
+      Title="PageEquip" >
 
-    <Grid>
+    <Grid Margin="0" >
 
-        <dxg:GridControl x:Name="dg" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Margin="0" Height="545" Width="1234" SelectionMode="None" ShowBorder="False">
+        <dxg:GridControl x:Name="dg" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Margin="20" SelectionMode="None" Opacity="0.6">
             <dxg:GridControl.View>
-                <dxg:CardView AllowEditing="False" ShowFilterPanelMode="Never" ShowGroupPanel="False" ScrollMode="Item" AllowColumnFiltering="False" AllowFilterEditor="False" AutoScrollOnSorting="False"/>
+                <dxg:CardView AllowEditing="False" AllowColumnFiltering="False" AllowFilterEditor="False" AutoScrollOnSorting="False" ShowGroupPanel="False" ShowFilterPanelMode="Never" AllowCardResizing="False" CardMargin="6" ShowCardExpandButton="False" ShowColumnHeaders="False"/>
+
             </dxg:GridControl.View>
         </dxg:GridControl>
 

@@ -146,6 +146,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PageHGL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Page_JL.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +158,9 @@
   <ItemGroup>
     <Compile Include="PageEquip.xaml.cs">
       <DependentUpon>PageEquip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageHGL.xaml.cs">
+      <DependentUpon>PageHGL.xaml</DependentUpon>
     </Compile>
     <Compile Include="Page_JL.xaml.cs">
       <DependentUpon>Page_JL.xaml</DependentUpon>
