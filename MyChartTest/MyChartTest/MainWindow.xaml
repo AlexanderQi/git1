@@ -1,0 +1,47 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyChartTest"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="MyChartTest.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1366">
+    <Window.Background>
+        <ImageBrush ImageSource="bk.png"/>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="543*"/>
+            <ColumnDefinition Width="136*"/>
+        </Grid.ColumnDefinitions>
+        <dxc:ChartControl Margin="10"  AnimationMode="OnLoad" Background="Transparent" BorderBrush="#005379AE" >
+
+            <dxc:XYDiagram2D >
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D Visible="True" FontSize="29.333" >
+                        <dxc:AxisX2D.Label>
+                            <dxc:AxisLabel FontSize="21.333" Foreground="#FF99BCF0"/>
+                        </dxc:AxisX2D.Label>
+
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBrush="#8C90B0F5">
+                        <dxc:Pane.AxisXScrollBarOptions>
+                            <dxc:ScrollBarOptions BarThickness="16" Visible="True"/>
+                        </dxc:Pane.AxisXScrollBarOptions>
+                        
+                    </dxc:Pane>
+                    
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:BarSideBySideSeries2D DisplayName="Series 1">
+                    <dxc:SeriesPoint Argument="aaaaaa" Value="0.99"/>
+                    <dxc:SeriesPoint Argument="bbbbbb" Value="0.66"/>
+                    
+                </dxc:BarSideBySideSeries2D>
+                
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+    </Grid>
+</Window>
