@@ -10,12 +10,12 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#FF032437" Margin="0" Stroke="#FF07304A" RadiusX="20" RadiusY="20" StrokeThickness="3" Opacity="0.35">
+        <Rectangle Fill="#3F032437" Margin="0" Stroke="#FF07304A" RadiusX="20" RadiusY="20" StrokeThickness="3">
             <Rectangle.Effect>
                 <DropShadowEffect/>
             </Rectangle.Effect>
         </Rectangle>
-        <TextBlock x:Name="tbCaption" Margin="33,10,7,0" TextWrapping="Wrap" Text="TitleCaption" Foreground="#FFB0B0B0" FontSize="14.667" Height="20" VerticalAlignment="Top"/>
+        <TextBlock x:Name="tbCaption" Margin="33,10,7,0" TextWrapping="Wrap" Text="TitleCaption" Foreground="#FFF1EBEB" FontSize="14.667" Height="20" VerticalAlignment="Top"/>
         <Ellipse x:Name="ellipse_icon" HorizontalAlignment="Left" Margin="8,9,0,0" Stroke="#FF07304A" StrokeThickness="0" Width="20" Height="20" VerticalAlignment="Top">
             <Ellipse.Fill>
                 <ImageBrush ImageSource="png-0667.png"/>

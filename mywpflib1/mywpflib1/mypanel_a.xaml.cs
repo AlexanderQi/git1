@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,34 @@ namespace mywpflib1
     /// </summary>
     public partial class MyPanel_A : UserControl
     {
+        public static readonly DependencyProperty DCaptionProperty = DependencyProperty.Register("DCaption", typeof(string), typeof(MyPanel_A),
+            new PropertyMetadata("caption", OnValueChanged, null));
+
+        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            Trace.WriteLine("OnValueChanged--> " + e.NewValue + ";" + e.OldValue);
+            (d as MyPanel_A).Caption = e.NewValue as string;
+        }
+
         public MyPanel_A()
         {
             InitializeComponent();
+            
+            
         }
 
         public string Caption{
             get {return tbCaption.Text; }
-            set {tbCaption.Text=value; }
+            set {tbCaption.Text=value;}
+        }
+
+        public string DCaption
+        {
+            get { return (string)GetValue(DCaptionProperty); }
+            set {
+                SetValue(DCaptionProperty, value);
+            }
         }
 
 
