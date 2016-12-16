@@ -35,7 +35,6 @@
             <RowDefinition Height="268*"/>
             <RowDefinition Height="47*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="textBlock" Panel.ZIndex="2" HorizontalAlignment="Left" Margin="42,41,0,0" TextWrapping="Wrap" Text="南通智能配网AVC" VerticalAlignment="Top" Height="67" Width="481" FontSize="48" Foreground="#FFFFFEFE"/>
         <Border BorderThickness="3" Grid.Row="1" BorderBrush="#FFF70E0E" Margin="20">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -77,8 +76,14 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.Items>
-                ffff
-                <ListBoxItem>fffddd顶顶顶顶顶顶顶顶顶顶ddf</ListBoxItem>
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+                <ListItem />
+
 
             </ListBox.Items>
            
