@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Data;
+using log4net;
+using log4net.Appender;
 
 namespace mysqlDao_v1
 {
@@ -15,9 +17,11 @@ namespace mysqlDao_v1
        
         private int PoolMax = 3;
         private static mysqlConnectPool instance;
+        private ILog log;
         private mysqlConnectPool()
         {
             instance = this;
+            log = LogManager.GetLogger(AppDomain.CurrentDomain.BaseDirectory);
             
         }
         
@@ -39,7 +43,10 @@ namespace mysqlDao_v1
             connString = ConnectString;
             MySqlConnection conn = new MySqlConnection(connString);
             if (!conn.Ping())
+            {
+                log.Debug("数据库不能访问-" + connString);
                 return false;
+            }
             connList.Add(conn);
             if (PoolMax > 20) PoolMax = 20;
             
@@ -68,18 +75,19 @@ namespace mysqlDao_v1
         private string connStr;
         private MySqlConnection conn;
         private DataTable dt;
-
+        ILog log;
         public mysqlDAO(string connectString)
         {
+
+            log = LogManager.GetLogger(AppDomain.CurrentDomain.BaseDirectory);
             connStr = connectString;
             try
             {
                 conn = new MySqlConnection(connStr);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                 
-                throw;
+                log.Error(ex);
             }
         }
 
@@ -101,19 +109,24 @@ namespace mysqlDao_v1
 
         public DataTable Query(String sql)
         {
-            try
+            lock (this)
             {
-                if (conn.State == ConnectionState.Closed)
-                    conn.Open();
-                MySqlDataAdapter mda = new MySqlDataAdapter(sql, conn);
-                mda.Fill(dt);
-                return dt;
-            }
-            catch (Exception)
-            {
-
-                throw;
+                try
+                {
+                    if (conn.State == ConnectionState.Closed)
+                        conn.Open();
+                    MySqlDataAdapter mda = new MySqlDataAdapter(sql, conn);
+                    mda.Fill(dt);
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    
+                }
+                return null;
             }
         }
+
     }
 }

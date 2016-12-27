@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\..\vs2015\log4net-2.0.6\bin\net\4.0\release\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\mysql_dll\MySql.Data.dll</HintPath>
     </Reference>
