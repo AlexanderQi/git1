@@ -10,7 +10,7 @@
                 <ResourceDictionary Source="Tabitem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <ControlTemplate x:Key="btCloseTemplate" TargetType="{x:Type Button}">
-                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#33B80707" SnapsToDevicePixels="True"
+                <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="#7FB80707" SnapsToDevicePixels="True"
                         >
                     <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                 </Border>

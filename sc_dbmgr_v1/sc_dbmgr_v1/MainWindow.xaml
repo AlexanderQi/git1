@@ -5,18 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sc_dbmgr_v1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="800" WindowStyle="None" SnapsToDevicePixels="True" AllowsTransparency="True" MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        Title="MainWindow" Height="600" Width="800" WindowStyle="None" SnapsToDevicePixels="True" AllowsTransparency="True" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.Background>
-        <ImageBrush ImageSource="国家电网bk3.jpg"/>
+        <ImageBrush ImageSource="bg.png"/>
     </Window.Background>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="21"/>
+            <RowDefinition Height="549"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Button x:Name="button" Content="X" VerticalAlignment="Bottom" Template="{DynamicResource btCloseTemplate}" HorizontalAlignment="Right" Width="27" Foreground="#FFFFFEFE" Click="btClose_Click" Margin="0,0,11,6" />
-        <Button x:Name="button_Copy" Content="-" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="27" Foreground="#FF0F0F0F" Click ="btMin_Click" Margin="0,0,39,6" Background="#7FDDDDDD" Template="{DynamicResource MinBtTemplate}" />
+        <Button x:Name="button" Content="X" VerticalAlignment="Bottom" Template="{DynamicResource btCloseTemplate}" HorizontalAlignment="Right" Width="27" Foreground="#FFFFFEFE" Click="btClose_Click" Margin="0,0,9,2" Height="19" />
+        <Button x:Name="button_Copy" Content="-" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="27" Foreground="#FF0F0F0F" Click ="btMin_Click" Margin="0,0,35,2" Background="#7FDDDDDD" Template="{DynamicResource MinBtTemplate}" Height="19"  />
+
+        <TabControl x:Name="tabControl" Margin="0,3,0,86" Style="{DynamicResource TabControlStyle}" Grid.Row="1">
+            <TabItem Header="数据定位" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem.Background>
+                    <ImageBrush ImageSource="TimeRun.png" Stretch="Uniform"/>
+                </TabItem.Background>
+                <Grid />
+            </TabItem>
+
+            <TabItem Header="备份数据" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="90,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem.Background>
+                    <ImageBrush ImageSource="Protect.png" Stretch="Uniform"/>
+                </TabItem.Background>
+                <Grid />
+            </TabItem>
+            <TabItem Header="导入新库" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="172,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem.Background>
+                    <ImageBrush ImageSource="Exam.png" Stretch="Uniform"/>
+                </TabItem.Background>
+                <Grid />
+            </TabItem>
+
+            <TabItem Header="数据检查" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="254,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Foreground="#FF111111" FontWeight="Bold">
+                <TabItem.Background>
+                    <ImageBrush ImageSource="Accelerate.png" Stretch="Uniform"/>
+                </TabItem.Background>
+                <Grid />
+            </TabItem>
+
+        </TabControl>
+        <Rectangle HorizontalAlignment="Left" Height="30" Grid.Row="2" Stroke="Black" StrokeThickness="1" VerticalAlignment="Top" Width="800"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="617,10,-10,0" Grid.Row="2" TextWrapping="Wrap" Text="www.chinasoftcore.com.cn" VerticalAlignment="Top" Width="193" FontStyle="Italic" FontWeight="Bold"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="6,3,0,0" TextWrapping="Wrap" Text="配网系统数据库转换工具1.0" VerticalAlignment="Top" Width="508" Foreground="Black"/>
     </Grid>
 </Window>
     
