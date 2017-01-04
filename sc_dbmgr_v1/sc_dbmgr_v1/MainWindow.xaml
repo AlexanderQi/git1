@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:sc_dbmgr_v1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="800" WindowStyle="None">
+        Title="MainWindow" Height="480" Width="800" WindowStyle="None" SnapsToDevicePixels="True" AllowsTransparency="True" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Window.Background>
         <ImageBrush ImageSource="国家电网bk3.jpg"/>
     </Window.Background>
 
-    <Grid/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="button" Content="X" VerticalAlignment="Bottom" Template="{DynamicResource btCloseTemplate}" HorizontalAlignment="Right" Width="27" Foreground="#FFFFFEFE" Click="btClose_Click" Margin="0,0,11,6" />
+        <Button x:Name="button_Copy" Content="-" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="27" Foreground="#FF0F0F0F" Click ="btMin_Click" Margin="0,0,39,6" Background="#7FDDDDDD" Template="{DynamicResource MinBtTemplate}" />
+    </Grid>
 </Window>
+    
