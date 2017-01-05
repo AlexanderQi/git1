@@ -11,7 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using log4net;
+using log4net.Config;
+using System.IO;
 namespace sc_dbmgr_v1
 {
     /// <summary>
@@ -21,8 +23,20 @@ namespace sc_dbmgr_v1
     {
         public MainWindow()
         {
+            
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            InitLog();
+            
+            log.Info("StartPath:"+AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
+        }
+
+        private ILog log;
+        private void InitLog()
+        {
+            var logfile = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "Log4net.config");
+            XmlConfigurator.ConfigureAndWatch(logfile);
+            log = LogManager.GetLogger("log");
         }
 
         private void btClose_Click(object sender, RoutedEventArgs e)
