@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -13,7 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using log4net;
 using MySql.Data.MySqlClient;
-using mysqlDao_v1;
+//using mysqlDao_v1;
 using System.Configuration;
 
 namespace sc_dbmgr_v1
@@ -29,6 +29,20 @@ namespace sc_dbmgr_v1
             InitializeComponent();
             log = LogManager.GetLogger("log");
             button_conn.Click += Button_conn_Click;
+            Loaded += UiDbConnector_Loaded;
+            listBox_conn.SelectionChanged += ListBox_conn_SelectionChanged;
+        }
+
+        private void ListBox_conn_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = listBox_conn.SelectedIndex + 1;
+            string str = ConfigurationManager.ConnectionStrings[index].ConnectionString;
+            textBox_conn.Text = str;
+        }
+
+        private void UiDbConnector_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadConnInfo();
         }
 
         private void Button_conn_Click(object sender, RoutedEventArgs e)
@@ -57,14 +71,51 @@ namespace sc_dbmgr_v1
 
         private void LoadConnInfo()
         {
-            string conn = ConfigurationManager.ConnectionStrings["mysql_nttbl"].ToString();
+            listBox_conn.ItemsSource = null;
+            IEnumerator ie = ConfigurationManager.ConnectionStrings.GetEnumerator();
+            while (ie.MoveNext())
+            {
+                ConnectionStringSettings cs = ie.Current as ConnectionStringSettings;
+                if (cs.Name.IndexOf("SqlServer") >= 0) continue;
+                listBox_conn.Items.Add(cs.Name);
+            }
         }
 
         private void SaveConnInfo()
         {
             //Server=127.0.0.1;Database=nttbl; User=root;Password=root;Charset=utf8; Pooling=true; Max Pool Size=16;
             StringBuilder sb = new StringBuilder();
+            sb.Append(comboBox_dbip.Text).Append(";Database=").Append(comboBox_dbname.Text).Append(";User=").Append(comboBox_user.Text)
+                .Append(";Password=").Append(passwordBox.Password).Append(";Charset=utf8; Pooling=true; Max Pool Size=16");
+            string connStr = sb.ToString();
+            textBox_conn.Text = connStr;
+             
+            sb.Clear();
+            string connName = sb.Append(comboBox_dbip.Text).Append("-").Append(comboBox_dbname.Text).ToString();
 
+            sb.Append("--").Append(connStr);
+            log.Debug(sb.ToString());
+
+            try
+            {
+                Configuration cfg = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);   
+                //cfg.AppSettings.Settings.Add(new KeyValueConfigurationElement(connName, connStr));
+                cfg.ConnectionStrings.ConnectionStrings.Add(new ConnectionStringSettings(connName, connStr));
+                cfg.Save();
+                //ConfigurationManager.RefreshSection("appSettings");
+                ConfigurationManager.RefreshSection("connectionStrings");
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+                MessageBox.Show(e.ToString(), "An error occurred.");
+            }
+
+        }
+
+        private void button_save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveConnInfo();
         }
     }
 }
