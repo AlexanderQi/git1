@@ -57,7 +57,7 @@ namespace sc_dbmgr_v1
 
         private void LoadConnInfo()
         {
-            
+            string conn = ConfigurationManager.ConnectionStrings["mysql_nttbl"].ToString();
         }
 
         private void SaveConnInfo()
