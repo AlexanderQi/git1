@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="myValidationRules.cs" />
     <Compile Include="uiDbConnector.xaml.cs">
       <DependentUpon>uiDbConnector.xaml</DependentUpon>
     </Compile>

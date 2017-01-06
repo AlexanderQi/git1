@@ -21,23 +21,18 @@ namespace sc_dbmgr_v1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ILog log; //log配置初始化在APP.XAML.CS中
         public MainWindow()
         {
             
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            InitLog();
-            
+            log = LogManager.GetLogger("log");
             log.Info("StartPath:"+AppDomain.CurrentDomain.SetupInformation.ApplicationBase);
         }
 
-        private ILog log;
-        private void InitLog()
-        {
-            var logfile = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + "Log4net.config");
-            XmlConfigurator.ConfigureAndWatch(logfile);
-            log = LogManager.GetLogger("log");
-        }
+        
+
 
         private void btClose_Click(object sender, RoutedEventArgs e)
         {

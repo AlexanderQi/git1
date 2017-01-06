@@ -79,11 +79,12 @@ namespace mysqlDao_v1
         public mysqlDAO(string connectString)
         {
 
-            log = LogManager.GetLogger(AppDomain.CurrentDomain.BaseDirectory);
+            log = LogManager.GetLogger("log");
             connStr = connectString;
             try
             {
                 conn = new MySqlConnection(connStr);
+                log.Debug("新建数据源: "+conn.ConnectionString);
             }
             catch (Exception ex)
             {
@@ -92,9 +93,26 @@ namespace mysqlDao_v1
         }
 
 
-        public bool ConnectTest()
+        public bool Ping()
         {
-            return conn.Ping();
+            bool b = conn.Ping();
+            log.Debug("Ping DB:" + conn.DataSource + conn.Database+" return=" + b);
+            return b;
+        }
+
+        public void TestConnect()
+        {
+            try
+            {
+                conn.Close();
+                conn.Open();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
 
         public void ConnectClose()
@@ -104,7 +122,9 @@ namespace mysqlDao_v1
 
         public int Execute(String sql)
         {
-            return MySqlHelper.ExecuteNonQuery(conn, sql, null);
+            int r = MySqlHelper.ExecuteNonQuery(conn, sql, null);
+            log.Debug(conn.DataSource + conn.Database + "  " + sql + " return="+r);
+            return r;
         }
 
         public DataTable Query(String sql)
@@ -115,6 +135,7 @@ namespace mysqlDao_v1
                 {
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
+                    log.Debug(conn.DataSource+conn.Database+"  "+sql);
                     MySqlDataAdapter mda = new MySqlDataAdapter(sql, conn);
                     mda.Fill(dt);
                     return dt;
