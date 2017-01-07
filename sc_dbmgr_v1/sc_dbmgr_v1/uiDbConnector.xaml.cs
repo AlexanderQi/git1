@@ -16,6 +16,7 @@ using MySql.Data.MySqlClient;
 //using mysqlDao_v1;
 using System.Configuration;
 using mysqlDao_v1;
+using System.ComponentModel;
 
 namespace sc_dbmgr_v1
 {
@@ -26,11 +27,15 @@ namespace sc_dbmgr_v1
     {
         ILog log;
         static string Txt_connectionStrings = "connectionStrings";
+        public event PropertyChangedEventHandler ConnectStringsChanged;
+
+        public static uiDbConnector Instance;
+      
         public uiDbConnector()
         {
+            Instance = this;
             InitializeComponent();
             log = LogManager.GetLogger("log");
-            button_conn.Click += Button_conn_Click;
             Loaded += UiDbConnector_Loaded;
             listBox_conn.SelectionChanged += ListBox_conn_SelectionChanged;
             button_del.Click += Button_del_Click;
@@ -75,6 +80,10 @@ namespace sc_dbmgr_v1
                 ConfigurationManager.RefreshSection(Txt_connectionStrings);
                 ClearEditable();
                 LoadConnInfo();
+                if(ConnectStringsChanged != null)
+                {
+                    ConnectStringsChanged.Invoke(null,null);
+                }
             }
             catch (Exception ex)
             {
@@ -89,7 +98,11 @@ namespace sc_dbmgr_v1
         {
             try
             {
-                if (listBox_conn.SelectedItem == null) return;
+                if (listBox_conn.SelectedItem == null)
+                {
+                    ClearEditable();
+                    return;
+                }
                 int index = listBox_conn.SelectedIndex + 1;
                 string str = ConfigurationManager.ConnectionStrings[index].ConnectionString;
                 textBox_conn.Text = str;
@@ -121,10 +134,6 @@ namespace sc_dbmgr_v1
             }
         }
 
-        private void Button_conn_Click(object sender, RoutedEventArgs e)
-        {
-           // throw new NotImplementedException();
-        }
 
         private void button_new_Click(object sender, RoutedEventArgs e)
         {
@@ -135,7 +144,7 @@ namespace sc_dbmgr_v1
         {
             textBox_conn.Text = comboBox_dbip.Text = comboBox_dbname.Text = comboBox_user.Text = "";
             radioButton_mysql.IsChecked = true;
-            passwordBox.Password = "";
+            passwordBox.Clear();
         }
 
         private void LoadConnInfo()
@@ -193,6 +202,10 @@ namespace sc_dbmgr_v1
                 //ConfigurationManager.RefreshSection("appSettings");
                 ConfigurationManager.RefreshSection(Txt_connectionStrings);
                 LoadConnInfo();
+                if (ConnectStringsChanged != null)
+                {
+                    ConnectStringsChanged.Invoke(null, null);
+                }
             }
             catch (Exception ex)
             {
@@ -206,5 +219,7 @@ namespace sc_dbmgr_v1
         {
             SaveConnInfo();
         }
+
+
     }
 }

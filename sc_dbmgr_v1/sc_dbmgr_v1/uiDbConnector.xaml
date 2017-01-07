@@ -37,7 +37,6 @@
         <TextBox x:Name="textBox_conn" Margin="13,178,13.4,45.4" TextWrapping="Wrap" Grid.Column="1" AllowDrop="False" IsReadOnlyCaretVisible="True"/>
         <TextBlock x:Name="textBlock6" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="数据库连接:" VerticalAlignment="Top" Height="15" Width="189"/>
         <ListBox x:Name="listBox_conn" Margin="10,31,13,45"/>
-        <Button x:Name="button_conn" Content="连接" HorizontalAlignment="Right" Margin="0,0,13,9" Width="46" Height="22" VerticalAlignment="Bottom"/>
         <Button x:Name="button_del" Content="删除" Margin="61,0,0,9" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="46"/>
         <Rectangle Fill="#FF999999" HorizontalAlignment="Right" Height="auto" Stroke="#FF717171" Width="1"/>
         <TextBlock x:Name="textBlock7" Grid.Column="1" HorizontalAlignment="Left" Margin="13,158,0,0" TextWrapping="Wrap" Text="数据库连接字:" VerticalAlignment="Top" Height="15" Width="184"/>

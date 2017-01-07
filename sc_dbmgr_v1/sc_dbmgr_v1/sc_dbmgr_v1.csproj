@@ -79,6 +79,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="myValidationRules.cs" />
+    <Compile Include="uiDbbackup.xaml.cs">
+      <DependentUpon>uiDbbackup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="uiDbConnector.xaml.cs">
       <DependentUpon>uiDbConnector.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
     <Page Include="Tabitem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uiDbbackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uiDbConnector.xaml">
       <SubType>Designer</SubType>
