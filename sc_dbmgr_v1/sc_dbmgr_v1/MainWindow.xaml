@@ -39,9 +39,11 @@
                     <TabItem.Background>
                         <ImageBrush ImageSource="Protect.png" Stretch="Uniform"/>
                     </TabItem.Background>
-                    <Grid />
+                    <Grid>
+                        <local:uiDbbackup></local:uiDbbackup>
+                    </Grid>
                 </TabItem>
-                <TabItem Header="导入新库" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="172,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem Header="结构转换" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="172,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
                     <TabItem.Background>
                         <ImageBrush ImageSource="Exam.png" Stretch="Uniform"/>
                     </TabItem.Background>
@@ -57,7 +59,7 @@
 
             </TabControl>
             <Rectangle Grid.Row="2" Stroke="#FF717171" Margin="0
-                       " Fill="#FFE2FAE4" OpacityMask="White" ClipToBounds="True"  />
+                       " Fill="#33FBFBFB" OpacityMask="White" ClipToBounds="True"  />
             <TextBlock x:Name="textBlock" HorizontalAlignment="Right" Margin="0,0,9.4,4.4" Grid.Row="2" TextWrapping="Wrap" Text="www.chinasoftcore.com" VerticalAlignment="Bottom" Width="153" FontStyle="Italic" FontWeight="Bold" Height="13"/>
             <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="6,3,0,0" TextWrapping="Wrap" Text="软核数据库管理工具1.0" VerticalAlignment="Top" Width="508" Foreground="Black" Height="16"/>
 

@@ -80,10 +80,7 @@ namespace sc_dbmgr_v1
                 ConfigurationManager.RefreshSection(Txt_connectionStrings);
                 ClearEditable();
                 LoadConnInfo();
-                if(ConnectStringsChanged != null)
-                {
-                    ConnectStringsChanged.Invoke(null,null);
-                }
+              
             }
             catch (Exception ex)
             {
@@ -159,12 +156,19 @@ namespace sc_dbmgr_v1
             {
                 ConnectionStringSettings cs = ie.Current as ConnectionStringSettings;
                 if (cs.Name.IndexOf("SqlServer") >= 0) continue;
+               
+                
                 listBox_conn.Items.Add(cs.Name);
                 string[] strs = cs.ConnectionString.Split('=', ';');
                 comboBox_dbip.Items.Add(strs[1]);
                 comboBox_dbname.Items.Add(strs[3]);
                 comboBox_user.Items.Add(strs[5]);
             }
+            if (ConnectStringsChanged != null)
+            {
+                ConnectStringsChanged.Invoke(null, null);
+            }
+
         }
 
         private void ClearConnInfo()
@@ -176,14 +180,14 @@ namespace sc_dbmgr_v1
         {
             //Server=127.0.0.1;Database=nttbl; User=root;Password=root;Charset=utf8; Pooling=true; Max Pool Size=16;
             StringBuilder sb = new StringBuilder();
-            sb.Append("Server=").Append(comboBox_dbip.Text).Append(";Database=")
-                .Append(comboBox_dbname.Text).Append(";User=").Append(comboBox_user.Text)
-                .Append(";Password=").Append(passwordBox.Password).Append(";Charset=utf8; Pooling=true; Max Pool Size=16;");
+            sb.Append("Server=").Append(comboBox_dbip.Text).Append(";User=").Append(comboBox_user.Text)
+                .Append(";Password=").Append(passwordBox.Password).Append(";Database=")
+                .Append(comboBox_dbname.Text).Append(";Charset=utf8; Pooling=true; Max Pool Size=16;");
             string connStr = sb.ToString();
             textBox_conn.Text = connStr;
              
             sb.Clear();
-            string connName = sb.Append(getDbSign()).Append('-').Append(comboBox_dbip.Text).Append('-').Append(comboBox_dbname.Text).Append('-').Append(comboBox_user.Text).ToString();
+            string connName = sb.Append(getDbSign()).Append('-').Append(comboBox_dbip.Text).Append('-').Append(comboBox_user.Text).Append('-').Append(comboBox_dbname.Text).ToString();
 
             sb.Append("--").Append(connStr);
             log.Debug(sb.ToString());
@@ -202,10 +206,7 @@ namespace sc_dbmgr_v1
                 //ConfigurationManager.RefreshSection("appSettings");
                 ConfigurationManager.RefreshSection(Txt_connectionStrings);
                 LoadConnInfo();
-                if (ConnectStringsChanged != null)
-                {
-                    ConnectStringsChanged.Invoke(null, null);
-                }
+              
             }
             catch (Exception ex)
             {

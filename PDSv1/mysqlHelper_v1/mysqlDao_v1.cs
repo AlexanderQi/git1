@@ -21,7 +21,7 @@ namespace mysqlDao_v1
         private mysqlConnectPool()
         {
             instance = this;
-            log = LogManager.GetLogger(AppDomain.CurrentDomain.BaseDirectory);
+            log = LogManager.GetLogger("log");
             
         }
         
@@ -92,6 +92,8 @@ namespace mysqlDao_v1
             }
         }
 
+        
+
 
         public bool Ping()
         {
@@ -137,6 +139,12 @@ namespace mysqlDao_v1
                         conn.Open();
                     log.Debug(conn.DataSource+conn.Database+"  "+sql);
                     MySqlDataAdapter mda = new MySqlDataAdapter(sql, conn);
+                    if(dt == null)
+                    {
+                        dt = new DataTable();
+                    }
+                    dt.Clear();
+                    dt.Columns.Clear();
                     mda.Fill(dt);
                     return dt;
                 }

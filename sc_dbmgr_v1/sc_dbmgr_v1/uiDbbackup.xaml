@@ -7,18 +7,30 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="191*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="22*"/>
+            <RowDefinition Height="24"/>
             <RowDefinition Height="121*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="146*"/>
         </Grid.RowDefinitions>
-        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Height="10" Margin="130,0,130,0" Grid.Row="2" Grid.RowSpan="1" Background="#FFD6FFA9"/>
-        <ListBox x:Name="listBox" Margin="0" Grid.Row="1"/>
-        <TextBox x:Name="textBox" Margin="0" Grid.Row="3" TextWrapping="Wrap"/>
-        <ComboBox x:Name="comboBox" Margin="10,0,110,0" VerticalAlignment="Top" Height="22"/>
-        <Button x:Name="button_connect" Content="连接" HorizontalAlignment="Right" Margin="0,0,60,0" VerticalAlignment="Top" Width="45"/>
-        <Button x:Name="button_backup" Content="备份" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Top" Width="45"/>
+        <GridSplitter x:Name="gridSplitter" HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" Grid.RowSpan="1" Background="#FF7FCD2A" BorderThickness="0" Grid.ColumnSpan="2"/>
+        <ListBox x:Name="listBox_base" Margin="0" Grid.Row="1" BorderThickness="0"/>
+        <TextBox x:Name="textBox_info" Margin="0" Grid.Row="3" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" VerticalScrollBarVisibility="Auto" BorderThickness="0" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="comboBox_db" Margin="0,2,100,2" Background="#FFF1F1F1" Opacity="0.5" Grid.Column="1"/>
+        <Button x:Name="button_connect" Content="连接" HorizontalAlignment="Right" Margin="0,2,52,2" Width="45" Opacity="0.5" Grid.Column="1"/>
+        <Button x:Name="button_backup" Content="备份" HorizontalAlignment="Right" Margin="0,2,5,2" Width="45" Opacity="0.5" Grid.Column="1"/>
+        <TextBlock x:Name="textBlock" Margin="4,5,0,4" TextWrapping="Wrap" Text="选择要备份的数据库:"/>
+        <ListBox x:Name="listBox_table" Grid.Column="1" Margin="0,0,0,0" Grid.Row="1" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
 
     </Grid>
 </UserControl>
