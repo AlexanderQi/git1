@@ -20,7 +20,7 @@ namespace sc_dbmgr_v1
     public partial class Wait4sth : Window
     {
         
-        private Wait4sth()
+         private Wait4sth()
         {
             InitializeComponent();
 

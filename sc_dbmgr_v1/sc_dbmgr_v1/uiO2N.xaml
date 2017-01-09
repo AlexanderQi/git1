@@ -24,7 +24,7 @@
         <Button x:Name="button_connect" Content="连接" HorizontalAlignment="Right" Margin="0,2,52,2" Width="45" Opacity="0.7" Grid.Column="1"/>
         <Button x:Name="button_convert" Content="转换" HorizontalAlignment="Right" Margin="0,2,5,2" Width="45" Opacity="0.7" Grid.Column="1"/>
         <TextBlock x:Name="textBlock" Margin="4,5,1,4" TextWrapping="Wrap" Text="选择要转换的的数据库:"/>
-        <ListBox x:Name="listBox_table" Grid.Column="1" Margin="1,0,0,1.8" Grid.Row="1" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="1">
+        <ListBox x:Name="listBox_table" Grid.Column="1" Margin="0" Grid.Row="1" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="1">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="3"/>
