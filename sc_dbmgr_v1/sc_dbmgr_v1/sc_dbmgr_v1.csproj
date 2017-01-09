@@ -79,15 +79,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="myValidationRules.cs" />
+    <Compile Include="uiDataImport.xaml.cs">
+      <DependentUpon>uiDataImport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="uiDbbackup.xaml.cs">
       <DependentUpon>uiDbbackup.xaml</DependentUpon>
     </Compile>
     <Compile Include="uiDbConnector.xaml.cs">
       <DependentUpon>uiDbConnector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uiO2N.xaml.cs">
+      <DependentUpon>uiO2N.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Wait4sth.xaml.cs">
       <DependentUpon>Wait4sth.xaml</DependentUpon>
     </Compile>
+    <Page Include="style\combox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,19 +110,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Tab.xaml">
+    <Page Include="style\Tab.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Tabitem.xaml">
+    <Page Include="style\Tabitem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uiDataImport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uiDbbackup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uiDbConnector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uiO2N.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,18 +168,15 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="国家电网bk3.jpg" />
+    <Resource Include="img\Accelerate.png" />
+    <Resource Include="img\Clear.png" />
+    <Resource Include="img\Exam.png" />
+    <Resource Include="img\Magnifier.png" />
+    <Resource Include="img\Protect.png" />
+    <Resource Include="img\TimeRun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Accelerate.png" />
-    <Resource Include="Clear.png" />
-    <Resource Include="Exam.png" />
-    <Resource Include="Magnifier.png" />
-    <Resource Include="Protect.png" />
-    <Resource Include="TimeRun.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="bg.png" />
+    <Resource Include="img\bg.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\PDSv1\mysqlHelper_v1\mysqlDao_v1.csproj">
@@ -188,6 +203,15 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="tool\mysql.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tool\mysqldump.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,7 +14,7 @@
 
     <Border CornerRadius="5" BorderThickness="1">
         <Border.Background>
-            <ImageBrush ImageSource="bg.png"/>
+            <ImageBrush ImageSource="img\bg.png"/>
         </Border.Background>
         <Grid>
             <Grid.RowDefinitions>
@@ -26,9 +26,9 @@
             <Button x:Name="button_Copy" Content="-" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="27" Foreground="#FF0F0F0F" Click ="btMin_Click" Margin="0,0,35.4,1.8" Background="#7FDDDDDD" Template="{DynamicResource MinBtTemplate}" Height="19"  />
 
             <TabControl x:Name="tabControl" Margin="0,3.2,0.4,20.4" Style="{DynamicResource TabControlStyle}" Grid.Row="1" Grid.RowSpan="2">
-                <TabItem Header="连接数据库" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem Header="数据库连接" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
                     <TabItem.Background>
-                        <ImageBrush ImageSource="TimeRun.png" Stretch="Uniform"/>
+                        <ImageBrush ImageSource="img\TimeRun.png" Stretch="Uniform"/>
                     </TabItem.Background>
                     <Grid>
                         <local:uiDbConnector Margin="0,0,-0.2,0"></local:uiDbConnector>
@@ -37,24 +37,28 @@
 
                 <TabItem Header="备份数据" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="90,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
                     <TabItem.Background>
-                        <ImageBrush ImageSource="Protect.png" Stretch="Uniform"/>
+                        <ImageBrush ImageSource="img\Protect.png" Stretch="Uniform"/>
                     </TabItem.Background>
                     <Grid>
                         <local:uiDbbackup></local:uiDbbackup>
                     </Grid>
                 </TabItem>
-                <TabItem Header="结构转换" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="172,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
+                <TabItem Header="导入数据" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="172,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF111111" FontWeight="Bold">
                     <TabItem.Background>
-                        <ImageBrush ImageSource="Exam.png" Stretch="Uniform"/>
+                        <ImageBrush ImageSource="img\Exam.png" Stretch="Uniform"/>
                     </TabItem.Background>
-                    <Grid />
+                    <Grid>
+                        <local:uiDataImport></local:uiDataImport>
+                    </Grid>
                 </TabItem>
 
-                <TabItem Header="数据检查" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="254,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Foreground="#FF111111" FontWeight="Bold">
+                <TabItem Header="结构转换" Style="{DynamicResource TabItemStyle}" Width="72" Height="72" Margin="254,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Foreground="#FF111111" FontWeight="Bold">
                     <TabItem.Background>
-                        <ImageBrush ImageSource="Accelerate.png" Stretch="Uniform"/>
+                        <ImageBrush ImageSource="img\Accelerate.png" Stretch="Uniform"/>
                     </TabItem.Background>
-                    <Grid />
+                    <Grid>
+                        <local:uiO2N></local:uiO2N>
+                    </Grid>
                 </TabItem>
 
             </TabControl>

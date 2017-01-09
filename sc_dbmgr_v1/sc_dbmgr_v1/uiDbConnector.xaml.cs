@@ -17,6 +17,7 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using mysqlDao_v1;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace sc_dbmgr_v1
 {
@@ -109,9 +110,10 @@ namespace sc_dbmgr_v1
                 radioButton_mysql.IsChecked = (ss[0] == "M") ? true : false;
                 radioButton_ora.IsChecked = (ss[0] == "M") ? false : true;
                 comboBox_dbip.Text = ss[1];
-                comboBox_dbname.Text = ss[2];
-                comboBox_user.Text = ss[3];
-                passwordBox.Password = sp[7];
+                comboBox_user.Text = ss[2];
+                comboBox_dbname.Text = ss[3];
+                
+                passwordBox.Password = sp[5];
             }
             catch (Exception ex)
             {
@@ -144,12 +146,15 @@ namespace sc_dbmgr_v1
             passwordBox.Clear();
         }
 
+        Dictionary<string, string> dbip = new Dictionary<string, string>();
+        Dictionary<string, string> dbname = new Dictionary<string, string>();
+        Dictionary<string, string> dbuser = new Dictionary<string, string>();
         private void LoadConnInfo()
         {
             listBox_conn.Items.Clear();
-            comboBox_dbip.Items.Clear();
-            comboBox_dbname.Items.Clear();
-            comboBox_user.Items.Clear();
+            comboBox_dbip.ItemsSource = null;
+            comboBox_dbname.ItemsSource = null;
+            comboBox_user.ItemsSource = null;
             textBox_conn.Text = "";
             IEnumerator ie = ConfigurationManager.ConnectionStrings.GetEnumerator();
             while (ie.MoveNext())
@@ -160,15 +165,26 @@ namespace sc_dbmgr_v1
                 
                 listBox_conn.Items.Add(cs.Name);
                 string[] strs = cs.ConnectionString.Split('=', ';');
-                comboBox_dbip.Items.Add(strs[1]);
-                comboBox_dbname.Items.Add(strs[3]);
-                comboBox_user.Items.Add(strs[5]);
+
+                if(!dbip.ContainsKey(strs[1]))
+                    dbip.Add(strs[1], strs[1]);
+                if (!dbuser.ContainsKey(strs[3]))
+                    dbuser.Add(strs[3], strs[3]);
+                if (!dbname.ContainsKey(strs[7]))
+                    dbname.Add(strs[7], strs[7]);
+                
+                //comboBox_dbip.Items.Add(strs[1]);
+                //comboBox_dbname.Items.Add(strs[5]);
+                //comboBox_user.Items.Add(strs[3]);
             }
+
+            comboBox_dbip.ItemsSource = dbip.Keys;
+            comboBox_user.ItemsSource = dbuser.Keys;
+            comboBox_dbname.ItemsSource = dbname.Keys;
             if (ConnectStringsChanged != null)
             {
                 ConnectStringsChanged.Invoke(null, null);
             }
-
         }
 
         private void ClearConnInfo()
