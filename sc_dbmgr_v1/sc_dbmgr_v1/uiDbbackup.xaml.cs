@@ -207,8 +207,6 @@ namespace sc_dbmgr_v1
                 log.Error(ex);
                 MessageBox.Show(ex.ToString());
             }
-
-
         }
     }
 }

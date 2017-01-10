@@ -55,6 +55,7 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\..\log4net\4.0\release\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\..\mysql.net.dll\MySql.Data.dll</HintPath>
     </Reference>

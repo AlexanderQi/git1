@@ -84,7 +84,7 @@ namespace mysqlDao_v1
             try
             {
                 conn = new MySqlConnection(connStr);
-                log.Debug("新建数据源: "+conn.ConnectionString);
+                log.Debug("*** 新建数据源: "+conn.ConnectionString);
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace mysqlDao_v1
         
 
 
-        public bool Ping()
+        private bool Ping()
         {
             bool b = conn.Ping();
             log.Debug("Ping DB:" + conn.DataSource + conn.Database+" return=" + b);
@@ -124,6 +124,8 @@ namespace mysqlDao_v1
 
         public int Execute(String sql)
         {
+            if (conn.State == ConnectionState.Closed)
+                conn.Open();
             int r = MySqlHelper.ExecuteNonQuery(conn, sql, null);
             log.Info("*** "+conn.DataSource + conn.Database + "  " + sql + " return="+r);
             return r;

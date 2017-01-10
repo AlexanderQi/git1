@@ -145,18 +145,18 @@ namespace sc_dbmgr_v1
             //Thread.Sleep(7000);
             try
             {
-                async_showinfo("将转换老数据库:" + curbase);
+                async_showinfo("将转换老版数据库:" + curbase);
                 mdao.Execute("use " + curbase);
+
+                add_tblcmdcheck();
+                add_tblfeeder();
+                add_tblfeedermeasure();
+                add_tblprogram();
 
                 add_feedid();
                 add_fields();
 
-                //add_tblcmdcheck();
-                //add_tblfeeder();
-                //add_tblfeedermeasure();
-                //add_tblprogram();
-
-                //add_tblfeeder_data();
+                add_tblfeeder_data();
             }
             catch (Exception ex)
             {
@@ -286,38 +286,17 @@ from tblfeedgraph g";
             foreach (DataRow dr in dt.Rows)
             {
                 string fn = dr[0].ToString().ToLower();
-                async_showinfo("将表(+feedid字段):" + fn);
-                string exes = "ALTER TABLE " + fn + " ADD FEEDID int(11) DEFAULT NULL COMMENT '所属馈线';";
-                try
-                {
-                    int i = mdao.Execute(exes);
-                    async_showinfo("update rows:" + i);
-                }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    async_showinfo(ex.Message);
-                }
-
+                add_field(fn, "FEEDID int(11) DEFAULT NULL", "所属馈线");
                 update_field(fn, "feedid = graphid");
-                //try
-                //{
-                //    exes = "UPDATE " + fn + " SET feedid = graphid;";
-                //    int i = mdao.Execute(exes);
-                //    async_showinfo("updates values:" + i);
-                //}
-                //catch (MySql.Data.MySqlClient.MySqlException ex)
-                //{
-                //    async_showinfo(ex.Message);
-                //}
+                
             }
         }
 
         private void add_fields()
         {
             add_field("tblfeedcapacitormeasure", "`WORKMODEYCID` int(11)", "工作模式");
-            //update_field("tblfeedcapacitormeasure", "WORKMODEYCID=WORKMODE");
 
-            add_field("tblfeedlinesegment", "VOLTAGELEVELID verchar(100)", "电压等级编号");
+            add_field("tblfeedlinesegment", "VOLTAGELEVELID varchar(100)", "电压等级编号");
             add_field("tblfeedlinesegment", "EXPECTLIFETIME double", "预期寿命");
             add_field("tblfeedlinesegment", "`ISCENTRAL` tinyint(1)", "是否主干线（主馈线）");
             add_field("tblfeedlinesegment", "`STARTUSINGTIME` datetime DEFAULT NULL", "投产日期，投运日期");
@@ -326,10 +305,8 @@ from tblfeedgraph g";
             add_field("tblfeedtrans", "`ISOLTC` tinyint(1) DEFAULT '1'", "是否有载调压变");
             //`ISONLOADTAPCHANGER` tinyint(1) DEFAULT NULL COMMENT '是否有载调压变',
             add_field("tblfeedtrans", "`ISONLOADTAPCHANGER` tinyint(1)", "是否有载调压变");
-
             //`ISBIDIRECTIONAL` tinyint(1) DEFAULT NULL COMMENT '是否双向调压器',  tblfeedvoltageregulator
             add_field("tblfeedvoltageregulator", "`ISBIDIRECTIONAL` tinyint(1)", "是否双向调压器");
-
             //`PROGRAMID` varchar(100) DEFAULT NULL COMMENT '项目ID', tblgraphfile
             add_field("tblgraphfile", "`PROGRAMID` varchar(100)", "项目ID");
         }
