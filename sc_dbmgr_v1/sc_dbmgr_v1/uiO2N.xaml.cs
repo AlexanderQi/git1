@@ -149,16 +149,48 @@ namespace sc_dbmgr_v1
                 mdao.Execute("use " + curbase);
 
                 add_feedid();
-                add_tblcmdcheck();
-                add_tblfeeder();
-                add_tblfeedermeasure();
-                add_tblprogram();
+                add_fields();
+
+                //add_tblcmdcheck();
+                //add_tblfeeder();
+                //add_tblfeedermeasure();
+                //add_tblprogram();
+
+                //add_tblfeeder_data();
             }
             catch (Exception ex)
             {
                 log.Error(ex);
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void add_tblfeeder_data()
+        {
+            try
+            {
+                string sql = @"insert into tblfeeder(ID,NAME,ALIASNAME,DESCRIPTION,VOLTAGELEVELID,ZONEID,ZONEBELONG,GRAPHID) 
+select g.ID,g.NAME,g.ALIASNAME,g.DESCRIPTION,g.VOLTAGELEVELID,g.ZONEID,g.ZONEBELONG,g.ID 
+from tblfeedgraph g";
+                int i = mdao.Execute(sql);
+                async_showinfo("insert into tblfeeder values; return:" + i);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                async_showinfo(ex.Message);
+            }
+
+            //留给feeder量测表数据导入。
+            //try
+            //{
+            //    string sql = @"";
+            //    int i = mdao.Execute(sql);
+            //    async_showinfo("insert into  values; return:" + i);
+            //}
+            //catch (MySql.Data.MySqlClient.MySqlException ex)
+            //{
+            //    async_showinfo(ex.Message);
+            //}
         }
 
         private void add_tblprogram()
@@ -253,9 +285,9 @@ namespace sc_dbmgr_v1
             DataTable dt = mdao.Query(sql);
             foreach (DataRow dr in dt.Rows)
             {
-                string fn = dr[0].ToString();
+                string fn = dr[0].ToString().ToLower();
                 async_showinfo("将表(+feedid字段):" + fn);
-                string exes = "ALTER TABLE " + fn + " ADD FEEDID int(11) DEFAULT NULL COMMENT '所属馈线'";
+                string exes = "ALTER TABLE " + fn + " ADD FEEDID int(11) DEFAULT NULL COMMENT '所属馈线';";
                 try
                 {
                     int i = mdao.Execute(exes);
@@ -265,16 +297,69 @@ namespace sc_dbmgr_v1
                 {
                     async_showinfo(ex.Message);
                 }
-                try
-                {
-                    exes = "UPDATE " + fn + " SET feedid = graphid;";
-                    int i = mdao.Execute(exes);
-                    async_showinfo("updates values:" + i);
-                }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    async_showinfo(ex.Message);
-                }
+
+                update_field(fn, "feedid = graphid");
+                //try
+                //{
+                //    exes = "UPDATE " + fn + " SET feedid = graphid;";
+                //    int i = mdao.Execute(exes);
+                //    async_showinfo("updates values:" + i);
+                //}
+                //catch (MySql.Data.MySqlClient.MySqlException ex)
+                //{
+                //    async_showinfo(ex.Message);
+                //}
+            }
+        }
+
+        private void add_fields()
+        {
+            add_field("tblfeedcapacitormeasure", "`WORKMODEYCID` int(11)", "工作模式");
+            //update_field("tblfeedcapacitormeasure", "WORKMODEYCID=WORKMODE");
+
+            add_field("tblfeedlinesegment", "VOLTAGELEVELID verchar(100)", "电压等级编号");
+            add_field("tblfeedlinesegment", "EXPECTLIFETIME double", "预期寿命");
+            add_field("tblfeedlinesegment", "`ISCENTRAL` tinyint(1)", "是否主干线（主馈线）");
+            add_field("tblfeedlinesegment", "`STARTUSINGTIME` datetime DEFAULT NULL", "投产日期，投运日期");
+
+            //`ISOLTC` tinyint(1) DEFAULT '1' COMMENT '是否有载调压变',
+            add_field("tblfeedtrans", "`ISOLTC` tinyint(1) DEFAULT '1'", "是否有载调压变");
+            //`ISONLOADTAPCHANGER` tinyint(1) DEFAULT NULL COMMENT '是否有载调压变',
+            add_field("tblfeedtrans", "`ISONLOADTAPCHANGER` tinyint(1)", "是否有载调压变");
+
+            //`ISBIDIRECTIONAL` tinyint(1) DEFAULT NULL COMMENT '是否双向调压器',  tblfeedvoltageregulator
+            add_field("tblfeedvoltageregulator", "`ISBIDIRECTIONAL` tinyint(1)", "是否双向调压器");
+
+            //`PROGRAMID` varchar(100) DEFAULT NULL COMMENT '项目ID', tblgraphfile
+            add_field("tblgraphfile", "`PROGRAMID` varchar(100)", "项目ID");
+        }
+
+        private void update_field(string tabname,string seter)
+        {
+            try
+            {
+                string exes = "UPDATE " + tabname + " SET "+seter+";";
+                int i = mdao.Execute(exes);
+                async_showinfo(tabname +" updates values:" + i);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                async_showinfo(ex.Message);
+            }
+        }
+
+        private void add_field(string tabname,string fieldinfo,string comment)
+        {
+            //fieldinfo like "FEEDID int(11) DEFAULT NULL"
+            try
+            {
+                string sql = "ALTER TABLE " + tabname + " ADD "+fieldinfo+" COMMENT '"+comment+"';";
+                int i = mdao.Execute(sql);
+                async_showinfo(tabname + "+ field "+fieldinfo+" return:" + i);
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                async_showinfo(ex.Message);
             }
         }
 

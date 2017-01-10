@@ -125,7 +125,7 @@ namespace mysqlDao_v1
         public int Execute(String sql)
         {
             int r = MySqlHelper.ExecuteNonQuery(conn, sql, null);
-            log.Debug(conn.DataSource + conn.Database + "  " + sql + " return="+r);
+            log.Info("*** "+conn.DataSource + conn.Database + "  " + sql + " return="+r);
             return r;
         }
 
