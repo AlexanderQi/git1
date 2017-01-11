@@ -166,7 +166,7 @@ namespace sc_dbmgr_v1
                         // 如果是注释，则跳出循环  
                         if (line_add.StartsWith("--")) continue;
 
-                        // 行数加l  
+                          
                         line += line_add;
                         // 如果不是完整的一条语句，则继续读取  
                         if (!line.EndsWith(";")) continue;
