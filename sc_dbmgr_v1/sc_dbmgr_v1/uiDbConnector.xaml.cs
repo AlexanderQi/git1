@@ -54,6 +54,11 @@ namespace sc_dbmgr_v1
         }
         private void Button_test_Click(object sender, RoutedEventArgs e)
         {
+            if(textBox_conn.Text == "")
+            {
+                MessageBox.Show("请选择数据库连接.");
+                return;
+            }
             try
             {
                 mysqlDAO dao = new mysqlDAO(textBox_conn.Text);
@@ -151,6 +156,7 @@ namespace sc_dbmgr_v1
         Dictionary<string, string> dbuser = new Dictionary<string, string>();
         private void LoadConnInfo()
         {
+            ClearEditable();
             listBox_conn.Items.Clear();
             comboBox_dbip.ItemsSource = null;
             comboBox_dbname.ItemsSource = null;
