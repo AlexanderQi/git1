@@ -74,7 +74,8 @@ namespace sc_dbmgr_v1
                 ConnectionStringSettings cs = ie.Current as ConnectionStringSettings;
                 if (cs.Name.IndexOf("SqlServer") >= 0) continue;
                 
-                comboBox_db.Items.Add(cs.Name);
+                int i = comboBox_db.Items.Add(cs.Name);
+               
             }
             if (comboBox_db.Items.Count > 0)
                 comboBox_db.SelectedIndex = 0;
@@ -84,12 +85,13 @@ namespace sc_dbmgr_v1
         IAsyncResult backup_call_result = null;
         private void Button_backup_Click(object sender, RoutedEventArgs e)
         {
-
+           
             if (listBox_table.Items.Count == 0)
             {
-                MessageBox.Show("请选择好要备份的数据库.");
+                MessageBox.Show("请先连接数据库服务器，并选择要备份的数据库.");
                 return;
             }
+            
             SaveFileDialog sf = new SaveFileDialog();
             sf.DefaultExt = "sql";
             sf.Filter = "数据库文件|*.sql";
@@ -176,6 +178,11 @@ namespace sc_dbmgr_v1
         private string curbase = null;
         private void Button_connect_Click(object sender, RoutedEventArgs e)
         {
+            if (comboBox_db.SelectedItem.ToString().IndexOf("O-") >= 0)
+            {
+                MessageBox.Show("不支持ORACLE数据库备份，请选择ORACLE客户端工具备份.");
+                return;
+            }
             if (comboBox_db.SelectedItem == null) return;
             try
             {
