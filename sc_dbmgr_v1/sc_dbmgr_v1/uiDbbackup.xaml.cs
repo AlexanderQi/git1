@@ -20,6 +20,7 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.Remoting.Messaging;
+using oracleDao_v1;
 
 namespace sc_dbmgr_v1
 {
@@ -29,6 +30,7 @@ namespace sc_dbmgr_v1
     public partial class uiDbbackup : UserControl
     {
         mysqlDAO mdao = null;
+        oracleDao odao = null;
         ILog log;
         public uiDbbackup()
         {
@@ -38,30 +40,67 @@ namespace sc_dbmgr_v1
             button_backup.Click += Button_backup_Click;
             uiDbConnector.Instance.ConnectStringsChanged += Instance_ConnectStringsChanged;
             listBox_base.SelectionChanged += ListBox_base_SelectionChanged;
+            listBox_base.MouseDoubleClick += ListBox_base_MouseDoubleClick;
+        }
+
+        private void ListBox_base_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListBox_base_SelectionChanged(this, null);
         }
 
         private void ListBox_base_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (mdao == null) return;
-            listBox_table.Items.Clear();
-            try
+            if (listBox_base.SelectedItem == null) return;
+            if (dbtype == dbtype_mysql)
             {
-                curbase = listBox_base.SelectedItem.ToString();
-                string sql = "use " + curbase + ";";
-                mdao.Execute(sql);
-                DataTable dt = mdao.Query("show tables;");
-                IEnumerator ie = dt.Rows.GetEnumerator();
-                while (ie.MoveNext())
+                if (mdao == null) return;
+                listBox_table.Items.Clear();
+                try
                 {
-                    DataRow dr = ie.Current as DataRow;
-                    listBox_table.Items.Add(dr[0]);
-                }
+                    curbase = listBox_base.SelectedItem.ToString();
+                    string sql = "use " + curbase + ";";
+                    mdao.Execute(sql);
+                    DataTable dt = mdao.Query("show tables;");
+                    IEnumerator ie = dt.Rows.GetEnumerator();
+                    while (ie.MoveNext())
+                    {
+                        DataRow dr = ie.Current as DataRow;
+                        listBox_table.Items.Add(dr[0]);
+                    }
 
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    MessageBox.Show(ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                log.Error(ex);
-                MessageBox.Show(ex.ToString());
+                if (odao != null)
+                {
+                    odao.ConnectClose();
+                }
+                odao = new oracleDao(cstr);
+                listBox_table.Items.Clear();
+                try
+                {
+                    DataTable dt = odao.Query("SELECT owner, table_name FROM all_tables where owner='"+curuser+"'");
+                    IEnumerator ie = dt.Rows.GetEnumerator();
+                    while (ie.MoveNext())
+                    {
+                        DataRow dr = ie.Current as DataRow;
+                        string cs = dr[1].ToString().ToUpper();
+                        if (cs.IndexOf("TBL") != 0) continue;
+                        listBox_table.Items.Add(cs);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    MessageBox.Show(ex.ToString());
+                }
             }
         }
 
@@ -85,7 +124,11 @@ namespace sc_dbmgr_v1
         IAsyncResult backup_call_result = null;
         private void Button_backup_Click(object sender, RoutedEventArgs e)
         {
-           
+            if (dbtype == dbtype_ora)
+            {
+                MessageBox.Show("需要安装ORACLE客户端工具.");
+                return;
+            }
             if (listBox_table.Items.Count == 0)
             {
                 MessageBox.Show("请先连接数据库服务器，并选择要备份的数据库.");
@@ -176,44 +219,59 @@ namespace sc_dbmgr_v1
         private string curpw = null;
         private string curip = null;
         private string curbase = null;
+        private int dbtype = 0;
+        private const int dbtype_mysql = 1;
+        private const int dbtype_ora = 2;
+        private string cstr;
         private void Button_connect_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBox_db.SelectedItem.ToString().IndexOf("O-") >= 0)
-            {
-                MessageBox.Show("不支持ORACLE数据库备份，请选择ORACLE客户端工具备份.");
-                return;
-            }
-            if (comboBox_db.SelectedItem == null) return;
             try
             {
-                if (mdao != null)
-                    mdao.ConnectClose();
-                string cstr = ConfigurationManager.ConnectionStrings[comboBox_db.SelectedItem.ToString()].ConnectionString;
-                mdao = new mysqlDAO(cstr);
-                DataTable dt = mdao.Query("show databases;");
-                IEnumerator ie = dt.Rows.GetEnumerator();
-                listBox_base.Items.Clear();
-                while (ie.MoveNext())
+                string dbn = comboBox_db.SelectedItem.ToString();
+                cstr = ConfigurationManager.ConnectionStrings[dbn].ConnectionString;
+                if (dbn.IndexOf("MY-") >= 0)
                 {
-                    DataRow dr = ie.Current as DataRow;
-                    string cs = dr[0].ToString();
-                    if (cs.IndexOf("_schema") >= 0 || cs.IndexOf("mysql") >= 0) continue;
-                    listBox_base.Items.Add(cs);
+                    dbtype = dbtype_mysql;
+                    myConnInfo ci = mysqlDAO.getConnInfo(cstr);
+                    curip = ci.ServerIp;
+                    curuser = ci.User;
+                    curpw = ci.Password;
+                    curbase = ci.DatabaseName;
+                    if (mdao != null)
+                        mdao.ConnectClose();
+                    mdao = new mysqlDAO(cstr);
+                    DataTable dt = mdao.Query("show databases;");
+                    IEnumerator ie = dt.Rows.GetEnumerator();
+                    listBox_base.Items.Clear();
+                    while (ie.MoveNext())
+                    {
+                        DataRow dr = ie.Current as DataRow;
+                        string cs = dr[0].ToString();
+                        if (cs.IndexOf("_schema") >= 0 || cs.IndexOf("mysql") >= 0) continue;
+                        listBox_base.Items.Add(cs);
+                    }
                 }
-                string[] ss = cstr.Split('=', ';');
-                curip = ss[1];
-                curuser = ss[3];
-                curpw = ss[5];
-                curbase = ss[7];
+                else
+                {
+                    dbtype = dbtype_ora;
+                    oraConnInfo ci = oracleDao.getConnInfo(cstr);
+                    curip = ci.ServerIp;
+                    curuser = ci.User;
+                    curpw = ci.Password;
+                    curbase = ci.DatabaseName;
+                    listBox_base.Items.Clear();
+                    listBox_base.Items.Add(curbase);
 
-                log.Debug(cstr);
-                log.Debug(curip + "^" + curuser + "^" + curpw + "^" + curbase);
+                }
+                
             }
             catch (Exception ex)
             {
                 log.Error(ex);
                 MessageBox.Show(ex.ToString());
             }
+          
+            
         }
     }
 }

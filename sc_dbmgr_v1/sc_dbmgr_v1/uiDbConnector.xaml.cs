@@ -35,12 +35,12 @@ namespace sc_dbmgr_v1
             button_test.Click += Button_test_Click;
         }
 
-        private char getDbSign()
+        private string getDbSign()
         {
             if (radioButton_mysql.IsChecked == true)
-                return 'M';
+                return "MY";
             else
-                return 'O';
+                return "ORA";
             
         }
         private void Button_test_Click(object sender, RoutedEventArgs e)
@@ -108,34 +108,32 @@ namespace sc_dbmgr_v1
                 int index = listBox_conn.SelectedIndex + 1;
                 string str = ConfigurationManager.ConnectionStrings[index].ConnectionString;
                 textBox_conn.Text = str;
-                oraConnInfo cif = oracleDao.getConnInfo(str);
-                radioButton_mysql.IsChecked = (cif == null) ? true : false;
-                radioButton_ora.IsChecked = (cif == null) ? false : true;
-                if (cif == null)  //mysql 
+                string sn = listBox_conn.SelectedItem.ToString();
+                if (sn.IndexOf("MY-") >= 0)
                 {
-                    string[] sp = str.Split('=', ';');
-                    str = ConfigurationManager.ConnectionStrings[index].Name;
-                    string[] ss = str.Split('-'); 
-                    comboBox_dbip.Text = ss[1];
-                    comboBox_user.Text = ss[2];
-                    comboBox_dbname.Text = ss[3];
-                    passwordBox.Password = sp[5];
+                    radioButton_mysql.IsChecked = true;
+                    myConnInfo cif = mysqlDAO.getConnInfo(str);
+                    comboBox_dbip.Text = cif.ServerIp;
+                    comboBox_user.Text = cif.User;
+                    comboBox_dbname.Text = cif.DatabaseName;
+                    passwordBox.Password = cif.Password;
                 }
-                else  //oracle
+                else
                 {
+                    radioButton_ora.IsChecked = true;
+                    oraConnInfo cif = oracleDao.getConnInfo(str);
                     comboBox_dbip.Text = cif.ServerIp;
                     comboBox_user.Text = cif.User;
                     comboBox_dbname.Text = cif.DatabaseName;
                     passwordBox.Password = cif.Password;
 
                 }
-
             }
             catch (Exception ex)
             {
                 log.Error(ex);
                 MessageBox.Show(ex.ToString());
-                
+
             }
         }
 
@@ -179,26 +177,7 @@ namespace sc_dbmgr_v1
                 ConnectionStringSettings cs = ie.Current as ConnectionStringSettings;
                 if (cs.Name.IndexOf("SqlServer") >= 0) continue;
                 listBox_conn.Items.Add(cs.Name);
-                if (radioButton_mysql.IsChecked == true)  //mysql
-                {
-                    string[] strs = cs.ConnectionString.Split('=', ';');
-                    if (!dbip.ContainsKey(strs[1]))
-                        dbip.Add(strs[1], strs[1]);
-                    if (!dbuser.ContainsKey(strs[3]))
-                        dbuser.Add(strs[3], strs[3]);
-                    if (!dbname.ContainsKey(strs[7]))
-                        dbname.Add(strs[7], strs[7]);
-                }
-                else  //oracle
-                {
-                    oraConnInfo ci = oracleDao.getConnInfo(cs.ConnectionString);
-                    if (!dbip.ContainsKey(ci.ServerIp))
-                        dbip.Add(ci.ServerIp, ci.ServerIp);
-                    if (!dbuser.ContainsKey(ci.User))
-                        dbuser.Add(ci.User, ci.User);
-                    if (!dbname.ContainsKey(ci.DatabaseName))
-                        dbname.Add(ci.DatabaseName, ci.DatabaseName);
-                }
+
             }
 
             comboBox_dbip.ItemsSource = dbip.Keys;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Oracle.DataAccess.Client;
+//using Oracle.DataAccess.Client;
 using log4net;
 using System.Data;
-
+using System.Data.OracleClient;
 namespace oracleDao_v1
 {
     public class oraConnInfo
@@ -27,30 +27,32 @@ namespace oracleDao_v1
 
         public static oraConnInfo getConnInfo(string ConnectString)
         {
-            //SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.1.99)(PORT=1152))(CONNECT_DATA=(SERVICE_NAME=ORCL)));uid=SYSTEM;pwd=ORCL"
+            //SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.1.99)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)));uid=SYSTEM;pwd=ORCL"
             oraConnInfo cinfo = null;
-            if (ConnectString.IndexOf("ADDRESS=(PROTOCOL=TCP)") >= 0)  //Oracle connect
+
+            cinfo = new oraConnInfo();
+            string[] ss = ConnectString.Split('=', '(', ')', ';');
+            for (int i = 0; i < ss.Length; i++)
             {
-                cinfo = new oraConnInfo();
-                string[] ss = ConnectString.Split('=', '(', ')', ';');
-                for(int i = 0; i < ss.Length; i++)
+                string tmp = ss[i].ToUpper();
+                if (tmp.Equals("HOST"))
                 {
-                    string tmp = ss[i].ToUpper();
-                    if (tmp.Equals("HOST"))
-                    {
-                        cinfo.ServerIp = ss[i + 1];
-                    } else if (tmp.Equals("SERVICE_NAME")) 
-                    {
-                        cinfo.DatabaseName = ss[i + 1];
-                    }else if (tmp.Equals("USER ID")) 
-                    {
-                        cinfo.User = ss[i + 1];
-                    }else if (tmp.Equals("PASSWORD")) 
-                    {
-                        cinfo.Password = ss[i + 1];
-                    }
+                    cinfo.ServerIp = ss[i + 1];
+                }
+                else if (tmp.Equals("SERVICE_NAME"))
+                {
+                    cinfo.DatabaseName = ss[i + 1];
+                }
+                else if (tmp.Equals("USER ID"))
+                {
+                    cinfo.User = ss[i + 1];
+                }
+                else if (tmp.Equals("PASSWORD"))
+                {
+                    cinfo.Password = ss[i + 1];
                 }
             }
+
             return cinfo;
         }
 
@@ -118,8 +120,11 @@ namespace oracleDao_v1
                     {
                         dt = new DataTable();
                     }
-                    dt.Clear();
-                    dt.Columns.Clear();
+                    else
+                    {
+                        dt.Clear();
+                        dt.Columns.Clear();
+                    }
                     oda.Fill(dt);
                     return dt;
                 }

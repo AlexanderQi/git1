@@ -22,6 +22,7 @@ using System.Threading;
 using System.IO;
 using Microsoft.VisualBasic;
 using MySql.Data.MySqlClient;
+using oracleDao_v1;
 
 namespace sc_dbmgr_v1
 {
@@ -31,6 +32,7 @@ namespace sc_dbmgr_v1
     public partial class uiDataImport : UserControl
     {
         mysqlDAO mdao = null;
+        oracleDao odao = null;
         ILog log;
         public uiDataImport()
         {
@@ -64,19 +66,34 @@ namespace sc_dbmgr_v1
         private string curip = null;
         private string curbase = null;
         private string cstr = null;
+        private int dbtype = 0;
+        private const int dbtype_mysql = 1;
+        private const int dbtype_ora = 2;
         private void Button_import_Click(object sender, RoutedEventArgs e)
         {
             if (comboBox_dbc.SelectedItem == null) return;
             try
             {
-                cstr = ConfigurationManager.ConnectionStrings[comboBox_dbc.SelectedItem.ToString()].ConnectionString;
-                string[] ss = cstr.Split('=', ';');
-                curip = ss[1];
-                curuser = ss[3];
-                curpw = ss[5];
-                curbase = ss[7];
+                string dbn = comboBox_dbc.SelectedItem.ToString();
+                cstr = ConfigurationManager.ConnectionStrings[dbn].ConnectionString;
+                if (dbn.IndexOf("MY-") >= 0)
+                {
+                    dbtype = dbtype_mysql;
+                    myConnInfo ci = mysqlDAO.getConnInfo(cstr);
+                    curip = ci.ServerIp;
+                    curuser = ci.User;
+                    curpw = ci.Password;
+                    curbase = ci.DatabaseName;
+                }
+                else { 
+                    dbtype = dbtype_ora;
+                    oraConnInfo ci = oracleDao.getConnInfo(cstr);
+                    curip = ci.ServerIp;
+                    curuser = ci.User;
+                    curpw = ci.Password;
+                    curbase = ci.DatabaseName;
+                }                
                 showinfo(curip + "^" + curuser + "^" + curpw + "^" + curbase);
-
                 async_task_import();
             }
             catch (Exception ex)
@@ -122,16 +139,26 @@ namespace sc_dbmgr_v1
         {
             try
             {
-                if(mdao != null)
+                if (dbtype == dbtype_mysql)
                 {
-                    mdao.ConnectClose();
+                    if (mdao != null)
+                    {
+                        mdao.ConnectClose();
+                    }
+                    mdao = new mysqlDAO(cstr);
+
+                    string exes = "CREATE DATABASE " + new_base_name + ";use " + new_base_name + ";";
+                    int r = mdao.Execute(exes);
+                    async_showinfo(exes + " return:" + r);
+                    ExecuteSqlFile();
                 }
-                mdao = new mysqlDAO(cstr);
-           
-                string exes = "CREATE DATABASE "+new_base_name+";use "+new_base_name+";";
-                int r = mdao.Execute(exes);
-                async_showinfo(exes + " return:" + r);
-                ExecuteSqlFile();
+                else
+                {
+                    if (odao != null)
+                        odao.ConnectClose();
+                    odao = new oracleDao(cstr);
+                    ExecuteSqlFile();
+                }
 
             }
             catch (Exception ex)
@@ -178,7 +205,10 @@ namespace sc_dbmgr_v1
                         //执行当前行  
                         try
                         {
-                            mdao.Execute(line);
+                            if (dbtype == dbtype_mysql)
+                                mdao.Execute(line);
+                            else
+                                odao.Execute(line);
                         }
                         catch (MySql.Data.MySqlClient.MySqlException ex)
                         {
@@ -189,7 +219,10 @@ namespace sc_dbmgr_v1
                 }
                 finally
                 {
-                    mdao.ConnectClose();
+                    if (dbtype == dbtype_mysql)
+                        mdao.ConnectClose();
+                    else
+                        odao.ConnectClose();
                 }
             }
 

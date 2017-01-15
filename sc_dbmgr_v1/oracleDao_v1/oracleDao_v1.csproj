@@ -52,12 +52,9 @@
     <Reference Include="log4net">
       <HintPath>..\..\..\..\log4net\4.0\release\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.DataAccess, Version=10.1.0.400, Culture=neutral, PublicKeyToken=89b483f429c47342">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\Oracle.DataAccess.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,9 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="dll\Oracle.DataAccess.dll" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

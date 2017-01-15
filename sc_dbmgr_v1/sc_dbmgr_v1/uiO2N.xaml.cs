@@ -95,14 +95,24 @@ namespace sc_dbmgr_v1
         private string curpw = null;
         private string curip = null;
         private string curbase = null;
+        private int dbtype = 0;
+        private const int dbtype_mysql = 1;
+        private const int dbtype_ora = 2;
+        private string cstr;
         private void Button_connect_Click(object sender, RoutedEventArgs e)
         {
             if (comboBox_db.SelectedItem == null) return;
+            string dn = comboBox_db.SelectedItem.ToString();
+            if (dn.IndexOf("ORA-") >= 0)
+            {
+                MessageBox.Show("老版本的ORACLE的库结构不能改变，只有MYSQL库支持最新库结构.");
+                return;
+            }
             try
             {
                 if (mdao != null)
                     mdao.ConnectClose();
-                string cstr = ConfigurationManager.ConnectionStrings[comboBox_db.SelectedItem.ToString()].ConnectionString;
+                cstr = ConfigurationManager.ConnectionStrings[dn].ConnectionString;
                 mdao = new mysqlDAO(cstr);
                 DataTable dt = mdao.Query("show databases;");
                 IEnumerator ie = dt.Rows.GetEnumerator();
