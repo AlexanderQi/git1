@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using log4net;
-using MySql.Data.MySqlClient;
-//using mysqlDao_v1;
 using System.Configuration;
 using mysqlDao_v1;
+using oracleDao_v1;
 using System.ComponentModel;
 using System.Collections.Generic;
 
@@ -61,15 +52,23 @@ namespace sc_dbmgr_v1
             }
             try
             {
-                mysqlDAO dao = new mysqlDAO(textBox_conn.Text);
-                dao.TestConnect();
+                if (radioButton_mysql.IsChecked == true)
+                {
+                    mysqlDAO dao = new mysqlDAO(textBox_conn.Text);
+                    dao.TestConnect();
+                }
+                else
+                {
+                    oracleDao odao = new oracleDao(textBox_conn.Text);
+                    odao.TestConnect();
+                }
                 log.Info("连接成功");
                 MessageBox.Show("连接成功");
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                MessageBox.Show("连接不成功,请检查网络地址，用户名，密码和数据库名。");
+                MessageBox.Show("连接不成功,请检查网络地址，用户名，密码和数据库名。\n"+ex.Message);
             }
         
         }
@@ -109,16 +108,28 @@ namespace sc_dbmgr_v1
                 int index = listBox_conn.SelectedIndex + 1;
                 string str = ConfigurationManager.ConnectionStrings[index].ConnectionString;
                 textBox_conn.Text = str;
-                string[] sp = str.Split('=', ';');
-                str = ConfigurationManager.ConnectionStrings[index].Name;
-                string[] ss = str.Split('-');
-                radioButton_mysql.IsChecked = (ss[0] == "M") ? true : false;
-                radioButton_ora.IsChecked = (ss[0] == "M") ? false : true;
-                comboBox_dbip.Text = ss[1];
-                comboBox_user.Text = ss[2];
-                comboBox_dbname.Text = ss[3];
-                
-                passwordBox.Password = sp[5];
+                oraConnInfo cif = oracleDao.getConnInfo(str);
+                radioButton_mysql.IsChecked = (cif == null) ? true : false;
+                radioButton_ora.IsChecked = (cif == null) ? false : true;
+                if (cif == null)  //mysql 
+                {
+                    string[] sp = str.Split('=', ';');
+                    str = ConfigurationManager.ConnectionStrings[index].Name;
+                    string[] ss = str.Split('-'); 
+                    comboBox_dbip.Text = ss[1];
+                    comboBox_user.Text = ss[2];
+                    comboBox_dbname.Text = ss[3];
+                    passwordBox.Password = sp[5];
+                }
+                else  //oracle
+                {
+                    comboBox_dbip.Text = cif.ServerIp;
+                    comboBox_user.Text = cif.User;
+                    comboBox_dbname.Text = cif.DatabaseName;
+                    passwordBox.Password = cif.Password;
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -167,21 +178,27 @@ namespace sc_dbmgr_v1
             {
                 ConnectionStringSettings cs = ie.Current as ConnectionStringSettings;
                 if (cs.Name.IndexOf("SqlServer") >= 0) continue;
-               
-                
                 listBox_conn.Items.Add(cs.Name);
-                string[] strs = cs.ConnectionString.Split('=', ';');
-
-                if(!dbip.ContainsKey(strs[1]))
-                    dbip.Add(strs[1], strs[1]);
-                if (!dbuser.ContainsKey(strs[3]))
-                    dbuser.Add(strs[3], strs[3]);
-                if (!dbname.ContainsKey(strs[7]))
-                    dbname.Add(strs[7], strs[7]);
-                
-                //comboBox_dbip.Items.Add(strs[1]);
-                //comboBox_dbname.Items.Add(strs[5]);
-                //comboBox_user.Items.Add(strs[3]);
+                if (radioButton_mysql.IsChecked == true)  //mysql
+                {
+                    string[] strs = cs.ConnectionString.Split('=', ';');
+                    if (!dbip.ContainsKey(strs[1]))
+                        dbip.Add(strs[1], strs[1]);
+                    if (!dbuser.ContainsKey(strs[3]))
+                        dbuser.Add(strs[3], strs[3]);
+                    if (!dbname.ContainsKey(strs[7]))
+                        dbname.Add(strs[7], strs[7]);
+                }
+                else  //oracle
+                {
+                    oraConnInfo ci = oracleDao.getConnInfo(cs.ConnectionString);
+                    if (!dbip.ContainsKey(ci.ServerIp))
+                        dbip.Add(ci.ServerIp, ci.ServerIp);
+                    if (!dbuser.ContainsKey(ci.User))
+                        dbuser.Add(ci.User, ci.User);
+                    if (!dbname.ContainsKey(ci.DatabaseName))
+                        dbname.Add(ci.DatabaseName, ci.DatabaseName);
+                }
             }
 
             comboBox_dbip.ItemsSource = dbip.Keys;
@@ -201,10 +218,22 @@ namespace sc_dbmgr_v1
         private void SaveConnInfo()
         {
             //Server=127.0.0.1;Database=nttbl; User=root;Password=root;Charset=utf8; Pooling=true; Max Pool Size=16;
+
+            //SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort))(CONNECT_DATA=(SERVICE_NAME=MyOracleSID)));uid=myUsername;pwd=myPassword;
             StringBuilder sb = new StringBuilder();
-            sb.Append("Server=").Append(comboBox_dbip.Text).Append(";User=").Append(comboBox_user.Text)
-                .Append(";Password=").Append(passwordBox.Password).Append(";Database=")
-                .Append(comboBox_dbname.Text).Append(";Charset=utf8; Pooling=true; Max Pool Size=16;");
+
+            if (radioButton_mysql.IsChecked == true)
+            {
+                sb.Append("Server=").Append(comboBox_dbip.Text).Append(";User=").Append(comboBox_user.Text)
+                        .Append(";Password=").Append(passwordBox.Password).Append(";Database=")
+                        .Append(comboBox_dbname.Text).Append(";Charset=utf8; Pooling=true; Max Pool Size=16;");
+            }
+            else
+            {
+                sb.Append("SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=").Append(comboBox_dbip.Text).Append(")(PORT=1152))(CONNECT_DATA=(SERVICE_NAME=")
+                    .Append(comboBox_dbname.Text).Append(")));uid=").Append(comboBox_user.Text).Append(";pwd=").Append(passwordBox.Password);
+            }
+
             string connStr = sb.ToString();
             textBox_conn.Text = connStr;
              
