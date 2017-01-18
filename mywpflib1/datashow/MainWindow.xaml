@@ -26,7 +26,7 @@
             <RowDefinition Height="310*"/>
         </Grid.RowDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="bluebk1.jpg"/>
+            <ImageBrush ImageSource="06.jpg"/>
         </Grid.Background>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="20,16,0,0" TextWrapping="Wrap" Text="南通智能配网AVQC系统 数据平台" VerticalAlignment="Top" Foreground="White" FontSize="32" Height="49" Width="538">
             <TextBlock.Effect>

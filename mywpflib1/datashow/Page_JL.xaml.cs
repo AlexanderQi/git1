@@ -63,12 +63,19 @@ namespace datashow
             act_load.BeginInvoke(load_callback, act_load);
         }
 
+        private MySqlConnection myconn = null;
         public void LoadData()
         {
+            
             string conn = ConfigurationManager.ConnectionStrings["mysql_nttbl"].ToString();
-            MySqlConnection myconn = new MySqlConnection(conn);
+            if (conn == null || conn.Equals("")) return;
             try
             {
+                if (myconn != null)
+                {
+                    myconn.Close();
+                }
+                myconn = new MySqlConnection(conn);
                 myconn.Open();
                 string sql = "select t.YCVALUE,t.NAME,t.REFRESHTIME from tblycvalue t where t.NAME = '系统累计节能量' " +
 "union select t.YCVALUE,t.NAME,t.REFRESHTIME from tblycvalue t where t.NAME = '节约标准煤' " +

@@ -6,34 +6,194 @@
       xmlns:local="clr-namespace:datashow"
       xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" x:Class="datashow.PageHGL"
       mc:Ignorable="d" 
-      d:DesignHeight="565" d:DesignWidth="1254"
+      d:DesignHeight="800" d:DesignWidth="1254"
       Title="PageHGL">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="279*"/>
+            <RowDefinition Height="291*"/>
+            <RowDefinition Height="230*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="278*"/>
+            <ColumnDefinition Width="488*"/>
+            <ColumnDefinition Width="489*"/>
+        </Grid.ColumnDefinitions>
 
-        <dxc:ChartControl HorizontalAlignment="Left" Margin="3" VerticalAlignment="Top"  Background="#3FFFFFFF" BorderBrush="{x:Null}">
-
-            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <dxc:ChartControl x:Name="chart_hgl" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="1" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
                 <dxc:XYDiagram2D.DefaultPane>
                     <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
                 </dxc:XYDiagram2D.DefaultPane>
                 <dxc:XYDiagram2D.AxisY>
-                    <dxc:AxisY2D/>
+                    <dxc:AxisY2D x:Name="y1">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
                 </dxc:XYDiagram2D.AxisY>
                 <dxc:XYDiagram2D.AxisX>
                     <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="Lime">电压合格率</dxc:AxisTitle>
+                        </dxc:AxisX2D.Title>
                         <dxc:AxisX2D.DateTimeScaleOptions>
                             <dxc:AutomaticDateTimeScaleOptions/>
                         </dxc:AxisX2D.DateTimeScaleOptions>
                     </dxc:AxisX2D>
                 </dxc:XYDiagram2D.AxisX>
-                <dxc:SplineSeries2D x:Name="s1"/>
+                <dxc:SplineAreaSeries2D x:Name="s1" Transparency="0.5" Brush="Lime"  >
+
+                </dxc:SplineAreaSeries2D>
 
 
 
 
             </dxc:XYDiagram2D>
         </dxc:ChartControl>
+
+        <dxc:ChartControl x:Name="chart_2" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="2" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D x:Name="y2">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="#FFE59D3C">二氧化碳减排量</dxc:AxisTitle>
+                        </dxc:AxisX2D.Title>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:LineStepSeries2D x:Name="s2" Brush="#FFE59D3C">
+                    <dxc:LineStepSeries2D.LineStyle>
+                        <dxc:LineStyle Thickness="3" LineJoin="Round"/>
+                    </dxc:LineStepSeries2D.LineStyle>
+                </dxc:LineStepSeries2D>
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+
+        <dxc:ChartControl x:Name="chart_3" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="1" Grid.Row="1" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D x:Name="y3">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="#FFF4DDFF">实时节能量</dxc:AxisTitle>
+                        </dxc:AxisX2D.Title>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:BarSideBySideSeries2D x:Name="s3" Brush="DarkOrchid"/>
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+
+        <dxc:ChartControl x:Name="chart_4" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="2" Grid.Row="1" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D x:Name="y4">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="Lime" Content="累计节能量"/>
+                        </dxc:AxisX2D.Title>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:BarSideBySideSeries2D x:Name="s4" Brush="Lime"/>
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+
+        <dxc:ChartControl x:Name="chart_5" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="1" Grid.Row="2" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D x:Name="y5">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="#FFF6CD09">经济效益</dxc:AxisTitle>
+                        </dxc:AxisX2D.Title>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:SplineAreaSeries2D  x:Name="s5" Brush="#FFF6CD09" Transparency="0.5"/>
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+
+        <dxc:ChartControl x:Name="chart_6" Margin="0"  Background="#3FFFFFFF" BorderBrush="{x:Null}" Grid.Column="2" Grid.Row="2" BorderThickness="0">
+            <dxc:XYDiagram2D Background="{x:Null}" ScrollViewer.CanContentScroll="True" Padding="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="0">
+                <dxc:XYDiagram2D.DefaultPane>
+                    <dxc:Pane DomainBorderBrush="White" DomainBrush="#1E137C9C" MirrorHeight="0.5"/>
+                </dxc:XYDiagram2D.DefaultPane>
+                <dxc:XYDiagram2D.AxisY>
+                    <dxc:AxisY2D x:Name="y6">
+                        <dxc:AxisY2D.VisualRange>
+                            <dxc:Range/>
+                        </dxc:AxisY2D.VisualRange>
+                    </dxc:AxisY2D>
+                </dxc:XYDiagram2D.AxisY>
+                <dxc:XYDiagram2D.AxisX>
+                    <dxc:AxisX2D>
+                        <dxc:AxisX2D.Title>
+                            <dxc:AxisTitle Foreground="#FFFF5E11">节约标准煤</dxc:AxisTitle>
+                        </dxc:AxisX2D.Title>
+                        <dxc:AxisX2D.DateTimeScaleOptions>
+                            <dxc:AutomaticDateTimeScaleOptions/>
+                        </dxc:AxisX2D.DateTimeScaleOptions>
+                    </dxc:AxisX2D>
+                </dxc:XYDiagram2D.AxisX>
+                <dxc:BarSideBySideSeries2D  x:Name="s6" Brush="#FFFF5E11"/>
+            </dxc:XYDiagram2D>
+        </dxc:ChartControl>
+        <DataGrid x:Name="dataGrid" Margin="20,27,10,0"  Grid.RowSpan="3" Opacity="50" ColumnWidth="*" RowHeaderWidth="0"/>
+        <ComboBox x:Name="comboBox" Margin="20,0,10,0" VerticalAlignment="Top" IsReadOnly="True" Background="{x:Null}" Foreground="#FFF2FC0F">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True" Background="#FF3B88F7"/>
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
 
     </Grid>
 </Page>
