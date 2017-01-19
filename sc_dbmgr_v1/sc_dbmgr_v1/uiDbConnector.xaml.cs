@@ -198,7 +198,9 @@ namespace sc_dbmgr_v1
         {
             //Server=127.0.0.1;Database=nttbl; User=root;Password=root;Charset=utf8; Pooling=true; Max Pool Size=16;
 
-            //SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort))(CONNECT_DATA=(SERVICE_NAME=MyOracleSID)));uid=myUsername;pwd=myPassword;
+           
+
+            //Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.1.99)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)));User ID=SYSTEM;Password=ORCL
             StringBuilder sb = new StringBuilder();
 
             if (radioButton_mysql.IsChecked == true)
@@ -209,8 +211,8 @@ namespace sc_dbmgr_v1
             }
             else
             {
-                sb.Append("SERVER=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=").Append(comboBox_dbip.Text).Append(")(PORT=1152))(CONNECT_DATA=(SERVICE_NAME=")
-                    .Append(comboBox_dbname.Text).Append(")));uid=").Append(comboBox_user.Text).Append(";pwd=").Append(passwordBox.Password);
+                sb.Append("Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=").Append(comboBox_dbip.Text).Append(")(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=")
+                    .Append(comboBox_dbname.Text).Append(")));User ID=").Append(comboBox_user.Text).Append(";Password=").Append(passwordBox.Password);
             }
 
             string connStr = sb.ToString();
